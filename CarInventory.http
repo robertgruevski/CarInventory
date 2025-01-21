@@ -1,0 +1,26 @@
+﻿@CarInventory_HostAddress = https://localhost:7246
+
+GET {{CarInventory_HostAddress}}/cars
+
+###
+
+POST {{CarInventory_HostAddress}}/cars
+Content-Type: application/json
+
+{
+  "make": "Toyota",
+  "model": "Corolla",
+  "year": 2018,
+  "isavailable": true,
+  "secret": "Sensitive Information"
+}
+
+###
+
+GET {{CarInventory_HostAddress}}/cars/1
+
+###
+
+DELETE {{CarInventory_HostAddress}}/cars/2
+
+###
