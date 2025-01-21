@@ -1,4 +1,5 @@
 using CarInventory;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +16,9 @@ RouteGroupBuilder cars = app.MapGroup("/cars"); // All of the endpoints begin wi
 cars.MapGet("/", GetAllCars);
 cars.MapPost("/", CreateCar);
 cars.MapGet("/{id}", GetCar);
+cars.MapPut("/{id}", UpdateCar);
 cars.MapDelete("/{id}", DeleteCar);
+cars.MapGet("/available", GetAvailableCars);
 
 app.Run();
 
@@ -54,4 +57,24 @@ static async Task<IResult> DeleteCar(int id, CarDb db)
 	{
 		return TypedResults.NotFound();
 	}
+}
+
+static async Task<IResult> UpdateCar(int id, CarDTO carDTO, CarDb db)
+{
+	var car = await db.Cars.FindAsync(id);
+
+	if (car is null) return TypedResults.NotFound();
+
+	car.Make = carDTO.Make;
+	car.Model = carDTO.Model;
+	car.IsAvailable = carDTO.IsAvailable;
+
+	await db.SaveChangesAsync();
+
+	return TypedResults.Ok(new CarDTO(car));
+}
+
+static async Task<IResult> GetAvailableCars(CarDb db)
+{
+	return TypedResults.Ok(await db.Cars.Where(x => x.IsAvailable).Select(x => new CarDTO(x)).ToArrayAsync());
 }

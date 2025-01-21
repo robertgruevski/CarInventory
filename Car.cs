@@ -7,5 +7,6 @@
 		public string Model { get; set; }
 		public bool IsAvailable { get; set; }
 		public string? Secret { get; set; }
+		public Car() { }
 	}
 }

@@ -17,10 +17,26 @@ Content-Type: application/json
 
 ###
 
-GET {{CarInventory_HostAddress}}/cars/1
+GET {{CarInventory_HostAddress}}/cars/3
 
 ###
 
 DELETE {{CarInventory_HostAddress}}/cars/2
+
+###
+
+
+GET {{CarInventory_HostAddress}}/cars/available
+
+###
+
+PUT {{CarInventory_HostAddress}}/cars/2
+Content-Type: application/json
+
+{
+  "make": "Tesla",
+  "model": "Model Y",
+  "isavailable": false
+}
 
 ###
